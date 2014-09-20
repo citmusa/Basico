@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
                 if (!names.contains(name)){
                     names.add(name);
                     adapter.notifyDataSetChanged();
+                    input_name.setText("");
                 }
             }
         });
