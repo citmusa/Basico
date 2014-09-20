@@ -16,7 +16,10 @@ public class NameDetailActivity extends Activity {
 
         Intent i = getIntent();
         String name = i.getStringExtra(MainActivity.NAME_TAG);
-
+        // instanciar el fragmento
+        NameDetailFragment frag = (NameDetailFragment)
+                getFragmentManager().findFragmentById(R.id.detail_fragment);
+        frag.setName(name);
     }
 
 

@@ -27,10 +27,13 @@ public class NameDetailFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         String name = (String)arguments.get(MainActivity.NAME_TAG);
+        setName(name);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    public void setName(String name){
         if (name != null){
             txt_name.setText(name);
         }
-
-        super.onActivityCreated(savedInstanceState);
     }
 }
