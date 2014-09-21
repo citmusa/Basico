@@ -2,12 +2,20 @@ package app.citmusa.net.basico;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class MainActivity extends Activity{
@@ -33,7 +41,8 @@ public class MainActivity extends Activity{
                 Intent share = new Intent();
                 share.setAction(Intent.ACTION_SEND);
                 String message = getResources().getString(R.string.message_share);
-                Uri img_share = Uri.parse("android.resource://" + getPackageName() + "/drawable/" + R.drawable.hotel1);
+                ImageView ivImage = (ImageView) findViewById(R.id.img_main);
+                Uri img_share = getLocalBitmapUri(ivImage);
                 Log.i("uri", img_share.toString());
                 share.putExtra(Intent.EXTRA_TEXT, message);
                 share.putExtra(Intent.EXTRA_STREAM,img_share);
@@ -44,6 +53,31 @@ public class MainActivity extends Activity{
                 return super.onMenuItemSelected(featureId, item);
         }
 
+    }
+
+    private Uri getLocalBitmapUri(ImageView imageView) {
+        // Extract Bitmap from ImageView drawable
+        Drawable drawable = imageView.getDrawable();
+        Bitmap bmp = null;
+        if (drawable instanceof BitmapDrawable){
+            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        } else {
+            return null;
+        }
+        // Store image to default external storage directory
+        Uri bmpUri = null;
+        try {
+            File file =  new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS), "share_image_" + System.currentTimeMillis() + ".png");
+            file.getParentFile().mkdirs();
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
     }
 
     @Override
