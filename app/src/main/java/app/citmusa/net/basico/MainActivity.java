@@ -2,6 +2,7 @@ package app.citmusa.net.basico;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 
     public static final String NAME_TAG = "name";
     private static final ArrayList<String> names = new ArrayList<String>();
@@ -71,13 +72,22 @@ public class MainActivity extends Activity {
     }
 
     class MyItemClickListener implements AdapterView.OnItemClickListener{
-
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             String name = adapter.getItem(i);
-            Intent action = new Intent(getApplicationContext(), NameDetailActivity.class);
-            action.putExtra(NAME_TAG, name);
-            startActivity(action);
+            if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                Intent action = new Intent(getApplicationContext(), NameDetailActivity.class);
+                action.putExtra(NAME_TAG, name);
+                startActivity(action);
+            }
+            else{
+                // fragment in the same activity in landscape
+                NameDetailFragment frag = (NameDetailFragment)
+                        getFragmentManager().findFragmentById(R.id.detail_fragment);
+                frag.setName(name);
+            }
+
         }
     }
+
 }
