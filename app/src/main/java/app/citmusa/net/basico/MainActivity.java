@@ -1,6 +1,7 @@
 package app.citmusa.net.basico;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +9,29 @@ import android.view.MenuItem;
 
 public class MainActivity extends Activity{
 
+    private boolean favorite = false;
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_fav:
+                Drawable icon = null;
+                favorite = !favorite;
+                if (favorite){
+                    icon = getResources().getDrawable(R.drawable.rating_important);
+                }
+                else{
+                    icon = getResources().getDrawable(R.drawable.rating_not_important);
+                }
+                item.setIcon(icon);
+                return true;
+            case R.id.action_share:
+                return true;
+            default:
+                return super.onMenuItemSelected(featureId, item);
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
