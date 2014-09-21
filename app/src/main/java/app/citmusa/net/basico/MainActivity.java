@@ -1,8 +1,11 @@
 package app.citmusa.net.basico;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,7 +28,17 @@ public class MainActivity extends Activity{
                 }
                 item.setIcon(icon);
                 return true;
+
             case R.id.action_share:
+                Intent share = new Intent();
+                share.setAction(Intent.ACTION_SEND);
+                String message = getResources().getString(R.string.message_share);
+                Uri img_share = Uri.parse("android.resource://" + getPackageName() + "/drawable/" + R.drawable.hotel1);
+                Log.i("uri", img_share.toString());
+                share.putExtra(Intent.EXTRA_TEXT, message);
+                share.putExtra(Intent.EXTRA_STREAM,img_share);
+                share.setType("image/jpeg");
+                startActivity(Intent.createChooser(share,"compartir"));
                 return true;
             default:
                 return super.onMenuItemSelected(featureId, item);
