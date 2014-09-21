@@ -25,10 +25,12 @@ public class NameDetailFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Bundle arguments = getArguments();
-        String name = (String)arguments.get(MainActivity.NAME_TAG);
-        setName(name);
         super.onActivityCreated(savedInstanceState);
+        Bundle arguments = getArguments();
+        if (arguments != null){
+            String name = (String)arguments.get(MainActivity.NAME_TAG);
+            setName(name);
+        }
     }
 
     public void setName(String name){
