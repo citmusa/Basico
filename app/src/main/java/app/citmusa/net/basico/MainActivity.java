@@ -47,7 +47,8 @@ public class MainActivity extends Activity{
                 share.putExtra(Intent.EXTRA_TEXT, message);
                 share.putExtra(Intent.EXTRA_STREAM,img_share);
                 share.setType("image/jpeg");
-                startActivity(Intent.createChooser(share,"compartir"));
+                // create chooser para forzar menú de aplicaciones con las cuales compartir
+                startActivity(Intent.createChooser(share,"Compartir con"));
                 return true;
             default:
                 return super.onMenuItemSelected(featureId, item);
